@@ -24,6 +24,20 @@
 			: "css/print/paper.css";
 		document.getElementsByTagName("head")[0].appendChild(link);
 	</script>
+
+	<style>
+		.italic {
+			font-style: italic;
+		}
+
+		.stack-rect {
+			height: 10px;
+		}
+
+		.stack-rect--red {
+			background-color: red;
+		}
+	</style>
 </head>
 
 <body>
@@ -31,13 +45,13 @@
 		<div class="slides">
 			<section>
 				<h1>
-					What the hell is <span style="font-style: italic">this</span> in
+					What the hell is <span class="italic">this</span> in
 					JavaScript
 				</h1>
 				<h3>Jürgen Ratzenböck</h3>
 			</section>
 			<section>
-				<h2><span style="font-style: italic;">this</span> is strange</h2>
+				<h2><span class="italic">this</span> is strange</h2>
 				<pre>
 			  		<code data-trim data-noescape>
 						function foo() {
@@ -56,6 +70,70 @@
 				<pre class="fragment fade-in">
 					<code>undefined</code>
 				</pre>
+			</section>
+			<section data-background-image="https://media.giphy.com/media/2yU3Ex75PRjeE/giphy.gif">
+			</section>
+			<section>
+				<h2><span class="italic">this</span> is not</h2>
+				<span class="fragment fade-in">refering to function itself</span>
+				<pre class="fragment fade-in">
+						<code data-trim data-noescape>
+							function foo() { 
+								this.count++;
+							}
+							foo.count = 10;
+							foo();
+							console.log(foo);	// 10
+						</code>
+					</pre>
+			</section>
+			<section>
+				<h2><span class="italic">this</span> is not</h2>
+				<span class="fragment fade-in">dependent on scope</span>
+				<pre class="fragment fade-in">
+							<code data-trim data-noescape>
+									function foo() {
+										var a = 2;
+										this.bar();
+									}
+									function bar() {
+										console.log( this.a );
+									}
+									foo();	// undefined
+							</code>
+						</pre>
+			</section>
+			<section>
+				<h2>It's all about the call site</h2>
+				<ul>
+					<li>runtime-binding instead of author-time binding</li>
+					<li>context-based on function invocation</li>
+					<li>how the function is called matters</li>
+				</ul>
+			</section>
+			<section>
+				<h2>What is then the call site?</h2>
+				<div style="display: flex">
+					<div style="flex-grow: 1">
+						<pre><code data-trim data-noescape>
+								function baz() {
+									console.log( "baz" );
+									bar();
+								}
+								function bar() {
+									console.log( "bar" );
+									foo();
+								}
+								function foo() {
+									console.log( "foo" );
+								}
+								baz();
+						</code></pre>
+					</div>
+					<div style="flex-grow: 1">
+						<div class="stack-rect stack-rect--red">global</div>
+					</div>
+				</div>
 			</section>
 		</div>
 	</div>
