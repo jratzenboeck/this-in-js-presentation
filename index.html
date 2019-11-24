@@ -31,11 +31,26 @@
 		}
 
 		.stack-rect {
-			height: 10px;
+			height: 25%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		.stack-rect--red {
 			background-color: red;
+		}
+
+		.stack-rect--blue {
+			background-color: blue;
+		}
+
+		.stack-rect--green {
+			background-color: green;
+		}
+
+		.stack-rect--orange {
+			background-color: orange;
 		}
 	</style>
 </head>
@@ -112,7 +127,7 @@
 				</ul>
 			</section>
 			<section>
-				<h2>What is then the call site?</h2>
+				<h2>What is the call site?</h2>
 				<div style="display: flex">
 					<div style="flex-grow: 1">
 						<pre><code data-trim data-noescape>
@@ -130,10 +145,95 @@
 								baz();
 						</code></pre>
 					</div>
-					<div style="flex-grow: 1">
-						<div class="stack-rect stack-rect--red">global</div>
+					<div style="flex-grow: 1; margin: 21px 0">
+						<div class="stack-rect stack-rect--red">foo</div>
+						<div class="stack-rect stack-rect--blue">bar</div>
+						<div class="stack-rect stack-rect--green">baz</div>
+						<div class="stack-rect stack-rect--orange">global</div>
 					</div>
 				</div>
+			</section>
+			<section>
+				<h2>The four golden rules</h2>
+				<img src="https://media.giphy.com/media/XK8I8Am1gSe17MiJ2m/giphy.gif" width="100%" height="500px"></img>
+			</section>
+			<section>
+				<h2>Default binding</h2>
+				<pre><code data-trim>
+						function foo() {
+							console.log( this.a );
+						}
+						var a = 2;
+						foo(); // 2
+				</code></pre>
+				<ul>
+					<li class="fragment">applies for plain, undecorated function call</li>
+					<li class="fragment">TypeError in strict mode</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Implicit binding</h2>
+				<pre><code data-trim>
+						function foo() {
+							console.log( this.a );
+						}
+						var obj = {
+							a: 2,
+							foo: foo
+						};
+						obj.foo(); // 2
+				</code></pre>
+				<ul>
+					<li class="fragment">When function is called, obj contains it</li>
+					<li class="fragment">Context object used as <span class="italic">this</span> binding</li>
+					<li class="fragment">Only last level of object property reference matters</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Caveats in Implicit Binding</h2>
+				<pre><code data-trim>
+						function foo() {
+							console.log( this.a );
+						}
+						var obj = {
+							a: 2,
+							foo: foo
+						};
+						var bar = obj.foo; // function reference/alias!
+						bar(); // undefined
+				</code></pre>
+			</section>
+			<section>
+				<h2>
+					Caveats in Implicit Binding
+				</h2>
+				<pre><code data-trim>
+						function foo() {
+							console.log( this.a );
+						}
+						var obj = {
+							a: 2,
+							foo: foo
+						};
+						setTimeout(obj.foo, 100); // "undefined"
+				</code></pre>
+			</section>
+			<section>
+				<h2>Explicit binding</h2>
+				<pre><code data-trim>
+						function foo() {
+							console.log( this.a );
+						}
+						var obj = {
+							a: 2
+						};
+						foo.call(obj); // 2
+						foo.apply(obj); // 2
+				</code></pre>
+				<ul>
+					<li class="fragment">No function reference in object necessary</li>
+					<li class="fragment">Force <span class="italic">this</span> binding to desired object</li>
+				</ul>
 			</section>
 		</div>
 	</div>
@@ -145,6 +245,8 @@
 		// - https://github.com/hakimel/reveal.js#configuration
 		// - https://github.com/hakimel/reveal.js#dependencies
 		Reveal.initialize({
+			controls: false,
+			hash: true,
 			dependencies: [
 				{ src: "plugin/markdown/marked.js" },
 				{ src: "plugin/markdown/markdown.js" },
