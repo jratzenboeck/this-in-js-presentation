@@ -1,49 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-		<link rel="stylesheet" href="css/reset.css">
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+	<title>What the hell is "this" in JavaScript</title>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/reveal.css" />
+	<link rel="stylesheet" href="css/theme/black.css" />
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/monokai.css" />
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi)
+			? "css/print/pdf.css"
+			: "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>
+					What the hell is <span style="font-style: italic">this</span> in
+					JavaScript
+				</h1>
+				<h3>Jürgen Ratzenböck</h3>
+			</section>
+			<section>
+				<h2><span style="font-style: italic;">this</span> is strange</h2>
+				<pre>
+			  		<code data-trim data-noescape>
+						function foo() {
+							setTimeout( function(){
+								console.log( this.a );
+							}, 100);
+						}
+						
+						var obj = {
+							a: 2,
+							foo: foo
+						};
+						obj.foo();
+					</code>
+				</pre>
+				<pre class="fragment fade-in">
+					<code>undefined</code>
+				</pre>
+			</section>
 		</div>
+	</div>
 
-		<script src="js/reveal.js"></script>
+	<script src="js/reveal.js"></script>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
-				]
-			});
-		</script>
-	</body>
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			dependencies: [
+				{ src: "plugin/markdown/marked.js" },
+				{ src: "plugin/markdown/markdown.js" },
+				{ src: "plugin/notes/notes.js", async: true },
+				{ src: "plugin/highlight/highlight.js", async: true }
+			]
+		});
+	</script>
+</body>
+
 </html>
