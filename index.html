@@ -1,76 +1,77 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>What the hell is "this" in JavaScript</title>
 
-	<title>What the hell is "this" in JavaScript</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/black.css" />
 
-	<link rel="stylesheet" href="css/reset.css" />
-	<link rel="stylesheet" href="css/reveal.css" />
-	<link rel="stylesheet" href="css/theme/black.css" />
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai.css" />
 
-	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="lib/css/monokai.css" />
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
 
-	<!-- Printing and PDF exports -->
-	<script>
-		var link = document.createElement("link");
-		link.rel = "stylesheet";
-		link.type = "text/css";
-		link.href = window.location.search.match(/print-pdf/gi)
-			? "css/print/pdf.css"
-			: "css/print/paper.css";
-		document.getElementsByTagName("head")[0].appendChild(link);
-	</script>
+    <style>
+      .italic {
+        font-style: italic;
+      }
 
-	<style>
-		.italic {
-			font-style: italic;
-		}
+      .stack-rect {
+        height: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-		.stack-rect {
-			height: 25%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
+      .stack-rect--red {
+        background-color: red;
+      }
 
-		.stack-rect--red {
-			background-color: red;
-		}
+      .stack-rect--blue {
+        background-color: blue;
+      }
 
-		.stack-rect--blue {
-			background-color: blue;
-		}
+      .stack-rect--green {
+        background-color: green;
+      }
 
-		.stack-rect--green {
-			background-color: green;
-		}
+      .stack-rect--orange {
+        background-color: orange;
+      }
+    </style>
+  </head>
 
-		.stack-rect--orange {
-			background-color: orange;
-		}
-	</style>
-</head>
-
-<body>
-	<div class="reveal">
-		<div class="slides">
-			<section>
-				<h1>
-					What the hell is <span class="italic">this</span> in
-					JavaScript
-				</h1>
-				<h3>Jürgen Ratzenböck</h3>
-			</section>
-			<section>
-				<h2><span class="italic">this</span> is strange</h2>
-				<pre>
-			  		<code data-trim data-noescape>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>
+            What the hell is <span class="italic">this</span> in JavaScript
+          </h1>
+          <h3>Jürgen Ratzenböck</h3>
+        </section>
+        <section>
+          <h2><span class="italic">this</span> is strange</h2>
+          <pre>
+			  		<code data-trim data-line-numbers>
 						function foo() {
-							setTimeout( function(){
+						  setTimeout( function(){
 								console.log( this.a );
 							}, 100);
 						}
@@ -82,17 +83,19 @@
 						obj.foo();
 					</code>
 				</pre>
-				<pre class="fragment fade-in">
+          <pre class="fragment fade-in">
 					<code>undefined</code>
-				</pre>
-			</section>
-			<section data-background-image="https://media.giphy.com/media/2yU3Ex75PRjeE/giphy.gif">
-			</section>
-			<section>
-				<h2><span class="italic">this</span> is not</h2>
-				<span class="fragment fade-in">refering to function itself</span>
-				<pre class="fragment fade-in">
-						<code data-trim data-noescape>
+				</pre
+          >
+        </section>
+        <section
+          data-background-image="https://media.giphy.com/media/2yU3Ex75PRjeE/giphy.gif"
+        ></section>
+        <section>
+          <h2><span class="italic">this</span> is not</h2>
+          <span class="fragment fade-in">refering to function itself</span>
+          <pre class="fragment fade-in">
+						<code data-trim data-line-numbers>
 							function foo() { 
 								this.count++;
 							}
@@ -101,12 +104,12 @@
 							console.log(foo);	// 10
 						</code>
 					</pre>
-			</section>
-			<section>
-				<h2><span class="italic">this</span> is not</h2>
-				<span class="fragment fade-in">dependent on scope</span>
-				<pre class="fragment fade-in">
-							<code data-trim data-noescape>
+        </section>
+        <section>
+          <h2><span class="italic">this</span> is not</h2>
+          <span class="fragment fade-in">dependent on scope</span>
+          <pre class="fragment fade-in">
+							<code data-trim data-line-numbers>
 									function foo() {
 										var a = 2;
 										this.bar();
@@ -117,20 +120,20 @@
 									foo();	// undefined
 							</code>
 						</pre>
-			</section>
-			<section>
-				<h2>It's all about the call site</h2>
-				<ul>
-					<li>runtime-binding instead of author-time binding</li>
-					<li>context-based on function invocation</li>
-					<li>how the function is called matters</li>
-				</ul>
-			</section>
-			<section>
-				<h2>What is the call site?</h2>
-				<div style="display: flex">
-					<div style="flex-grow: 1">
-						<pre><code data-trim data-noescape>
+        </section>
+        <section>
+          <h2>It's all about the call site</h2>
+          <ul>
+            <li>runtime-binding instead of author-time binding</li>
+            <li>context-based on function invocation</li>
+            <li>how the function is called matters</li>
+          </ul>
+        </section>
+        <section>
+          <h2>What is the call site?</h2>
+          <div style="display: flex">
+            <div style="flex-grow: 1">
+              <pre><code data-trim data-line-numbers>
 								function baz() {
 									console.log( "baz" );
 									bar();
@@ -144,36 +147,42 @@
 								}
 								baz();
 						</code></pre>
-					</div>
-					<div style="flex-grow: 1; margin: 21px 0">
-						<div class="stack-rect stack-rect--red">foo</div>
-						<div class="stack-rect stack-rect--blue">bar</div>
-						<div class="stack-rect stack-rect--green">baz</div>
-						<div class="stack-rect stack-rect--orange">global</div>
-					</div>
-				</div>
-			</section>
-			<section>
-				<h2>The four golden rules</h2>
-				<img src="https://media.giphy.com/media/XK8I8Am1gSe17MiJ2m/giphy.gif" width="100%" height="500px"></img>
-			</section>
-			<section>
-				<h2>Default binding</h2>
-				<pre><code data-trim>
+            </div>
+            <div style="flex-grow: 1; margin: 21px 0">
+              <div class="stack-rect stack-rect--red">foo</div>
+              <div class="stack-rect stack-rect--blue">bar</div>
+              <div class="stack-rect stack-rect--green">baz</div>
+              <div class="stack-rect stack-rect--orange">global</div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h2>The four golden rules</h2>
+          <img
+            src="https://media.giphy.com/media/XK8I8Am1gSe17MiJ2m/giphy.gif"
+            width="100%"
+            height="500px"
+          />
+        </section>
+        <section>
+          <h2>Default binding</h2>
+          <pre><code data-trim data-line-numbers>
 						function foo() {
 							console.log( this.a );
 						}
 						var a = 2;
 						foo(); // 2
 				</code></pre>
-				<ul>
-					<li class="fragment">applies for plain, undecorated function call</li>
-					<li class="fragment">TypeError in strict mode</li>
-				</ul>
-			</section>
-			<section>
-				<h2>Implicit binding</h2>
-				<pre><code data-trim>
+          <ul>
+            <li class="fragment">
+              applies for plain, undecorated function call
+            </li>
+            <li class="fragment">TypeError in strict mode</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Implicit binding</h2>
+          <pre><code data-trim data-line-numbers>
 						function foo() {
 							console.log( this.a );
 						}
@@ -183,17 +192,21 @@
 						};
 						obj.foo(); // 2
 				</code></pre>
-				<ul>
-					<li class="fragment">When function is called, obj contains it</li>
-					<li class="fragment">Context object used as <span class="italic">this</span> binding</li>
-					<li class="fragment">Only last level of object property reference matters</li>
-				</ul>
-			</section>
-			<section>
-				<h2>Caveats in Implicit Binding</h2>
-				<pre><code data-trim>
+          <ul>
+            <li class="fragment">When function is called, obj contains it</li>
+            <li class="fragment">
+              Context object used as <span class="italic">this</span> binding
+            </li>
+            <li class="fragment">
+              Only last level of object property reference matters
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Caveats in Implicit Binding</h2>
+          <pre><code data-trim data-line-numbers>
 						function foo() {
-							console.log( this.a );
+							  console.log( this.a );
 						}
 						var obj = {
 							a: 2,
@@ -202,12 +215,12 @@
 						var bar = obj.foo; // function reference/alias!
 						bar(); // undefined
 				</code></pre>
-			</section>
-			<section>
-				<h2>
-					Caveats in Implicit Binding
-				</h2>
-				<pre><code data-trim>
+        </section>
+        <section>
+          <h2>
+            Caveats in Implicit Binding
+          </h2>
+          <pre><code data-trim data-line-numbers>
 						function foo() {
 							console.log( this.a );
 						}
@@ -217,10 +230,10 @@
 						};
 						setTimeout(obj.foo, 100); // "undefined"
 				</code></pre>
-			</section>
-			<section>
-				<h2>Explicit binding</h2>
-				<pre><code data-trim>
+        </section>
+        <section>
+          <h2>Explicit binding</h2>
+          <pre><code data-trim data-line-numbers> 
 						function foo() {
 							console.log( this.a );
 						}
@@ -230,31 +243,110 @@
 						foo.call(obj); // 2
 						foo.apply(obj); // 2
 				</code></pre>
-				<ul>
-					<li class="fragment">No function reference in object necessary</li>
-					<li class="fragment">Force <span class="italic">this</span> binding to desired object</li>
-				</ul>
-			</section>
-		</div>
-	</div>
+          <ul>
+            <li class="fragment">No function reference in object necessary.</li>
+            <li class="fragment">
+              Force <span class="italic">this</span> binding to desired object.
+            </li>
+            <li class="fragment">
+              Does not prevent issue of losing intended binding.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Hard binding</h2>
+          <pre><code data-trim data-line-numbers>
+					function bind(fn, obj) {
+					  return function() {
+						  fn.apply(obj, arguments);
+						}
+					}
+					function foo() {
+						console.log(this.a);
+					}
+					const obj = { a: 1 };
+					const bar = bind(foo, obj);
+					console.log(bar()); // 1
+					console.log(bar.apply({ a: 2 })); // 1
+        </code></pre>
+          <ul>
+            <li class="fragment">
+              Ensures desired <span class="italic">this</span> binding.
+            </li>
+            <li class="fragment">
+              Returns a function that calls a particular function with
+              hard-coded binding.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>New binding</h2>
+          <pre><code data-trim data-line-numbers>
+            function Foo(a) {
+              this.a = a;
+            }
+            const bar = new Foo(2);
+            console.log(bar.a); // 2
+          </code></pre>
+          <ul>
+            <li class="fragment">New object is created.</li>
+            <li class="fragment">
+              Newly created object is used for
+              <strong class="italic">this</strong> binding.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>... and in what order</h2>
+          <img
+            src="https://media.giphy.com/media/3o7TKTDn976rzVgky4/giphy.gif"
+            alt="order"
+          />
+        </section>
+        <section>
+          <h2>Checklist to determine <strong class="italic">this</strong></h2>
+          <ul>
+            <li class="fragment">Is the function called with new?</li>
+            <li class="fragment">
+              Is the function with called with call or apply?
+            </li>
+            <li class="fragment">Is the function called with owning object?</li>
+            <li class="fragment">Otherwise default binding applies</li>
+          </ul>
+        </section>
+        <section>
+          <h2><strong class="italic">this</strong> is mind blowing!</h2>
+          <img
+            src="https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif"
+            alt="mind blowing"
+          />
+        </section>
+      </div>
+    </div>
 
-	<script src="js/reveal.js"></script>
+    <script src="js/reveal.js"></script>
 
-	<script>
-		// More info about config & dependencies:
-		// - https://github.com/hakimel/reveal.js#configuration
-		// - https://github.com/hakimel/reveal.js#dependencies
-		Reveal.initialize({
-			controls: false,
-			hash: true,
-			dependencies: [
-				{ src: "plugin/markdown/marked.js" },
-				{ src: "plugin/markdown/markdown.js" },
-				{ src: "plugin/notes/notes.js", async: true },
-				{ src: "plugin/highlight/highlight.js", async: true }
-			]
-		});
-	</script>
-</body>
-
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        controls: false,
+        hash: true,
+        dependencies: [
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.configure({ tabReplace: "  " });
+              hljs.initHighlighting();
+            }
+          }
+        ]
+      });
+    </script>
+  </body>
 </html>
