@@ -75,8 +75,7 @@
 								console.log( this.a );
 							}, 100);
 						}
-						
-						var obj = {
+						const obj = {
 							a: 2,
 							foo: foo
 						};
@@ -111,7 +110,7 @@
           <pre class="fragment fade-in">
 							<code data-trim data-line-numbers>
 									function foo() {
-										var a = 2;
+										const a = 2;
 										this.bar();
 									}
 									function bar() {
@@ -170,7 +169,7 @@
 						function foo() {
 							console.log( this.a );
 						}
-						var a = 2;
+						const a = 2;
 						foo(); // 2
 				</code></pre>
           <ul>
@@ -186,7 +185,7 @@
 						function foo() {
 							console.log( this.a );
 						}
-						var obj = {
+						const obj = {
 							a: 2,
 							foo: foo
 						};
@@ -208,11 +207,11 @@
 						function foo() {
 							  console.log( this.a );
 						}
-						var obj = {
+						const obj = {
 							a: 2,
 							foo: foo
 						};
-						var bar = obj.foo; // function reference/alias!
+						const bar = obj.foo; // function reference/alias!
 						bar(); // undefined
 				</code></pre>
         </section>
@@ -224,7 +223,7 @@
 						function foo() {
 							console.log( this.a );
 						}
-						var obj = {
+						const obj = {
 							a: 2,
 							foo: foo
 						};
@@ -237,7 +236,7 @@
 						function foo() {
 							console.log( this.a );
 						}
-						var obj = {
+						const obj = {
 							a: 2
 						};
 						foo.call(obj); // 2
